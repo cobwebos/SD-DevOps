@@ -3416,13 +3416,13 @@ public final class Hudson extends Node implements ItemGroup<TopLevelItem>, Stapl
         return System.getProperty("os.name").toLowerCase(Locale.ENGLISH).startsWith("mac");
     }
 
-    private DependencyGraphCalculator dependencyGraphCalculator = new DependencyGraphCalculator();
+    private final DependencyGraphCalculator dependencyGraphCalculator = new DependencyGraphCalculator();
     
     /**
      * Rebuilds the dependency map.
      */
     public void rebuildDependencyGraph() {
-        dependencyGraph = //new DependencyGraph();
+        dependencyGraph = 
             dependencyGraphCalculator.rebuildGraph();
     }
 

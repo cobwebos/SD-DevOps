@@ -17,6 +17,7 @@ import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.codehaus.plexus.taskqueue.execution.TaskExecutor;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,10 @@ public class ReleaseExecutorTest {
 	private ScmManager scmManager;
 
 	private MavenEmbedder mvnEmbedder;
-	private Object prepareExec;
+	private Object prepareEx;
+	private Object performEx;
+	private Object rollbackEx;
+	private Object relMgr;
 
 	private String getBasedir() {
 		return ".";
@@ -54,28 +58,16 @@ public class ReleaseExecutorTest {
 		mvnEmbedder = MavenUtil.createEmbedder(req);
 
 		scmManager = mvnEmbedder.lookup(ScmManager.class);
-		prepareExec = mvnEmbedder.lookup("org.codehaus.plexus.taskqueue.execution.TaskExecutor");
-
-		// if ( performExec == null )
-		// {
-		// performExec = (TaskExecutor) lookup( TaskExecutor.class.getName(),
-		// "perform-release" );
-		// }
-		//
-		// if ( rollbackExec == null )
-		// {
-		// rollbackExec = (TaskExecutor) lookup( TaskExecutor.class.getName(),
-		// "rollback-release" );
-		// }
-		//
-		// if ( releaseManager == null )
-		// {
-		// releaseManager = (ContinuumReleaseManager) lookup(
-		// ContinuumReleaseManager.ROLE );
-		// }
+		prepareEx = mvnEmbedder.lookup(TaskExecutor.class.getName(), "prepare-release");
+		performEx = mvnEmbedder.lookup(TaskExecutor.class.getName(), "perform-release");
+		rollbackEx = mvnEmbedder.lookup(TaskExecutor.class.getName(), "rollback-release");
+		relMgr = mvnEmbedder.lookup("ReleaseManager");
 
 		Assert.assertNotNull("mvn embedder not available", mvnEmbedder);
-		Assert.assertNotNull("prepareExec not available", prepareExec);
+		Assert.assertNotNull("prepareExec not available", prepareEx);
+		Assert.assertNotNull("prepareExec not available", performEx);
+		Assert.assertNotNull("prepareExec not available", rollbackEx);
+		Assert.assertNotNull("prepareExec not available", relMgr);
 
 	}
 

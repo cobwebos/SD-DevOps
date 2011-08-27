@@ -45,7 +45,7 @@ THE SOFTWARE.
     <mavenVersion>3.0.3</mavenVersion>
     <maven.version>${mavenVersion}</maven.version>
     <aetherVersion>1.11</aetherVersion>
-    <sisuInjectVersion>2.2.0</sisuInjectVersion>
+    <sisuInjectVersion>2.2.2</sisuInjectVersion>
     <wagonVersion>1.0</wagonVersion>
   </properties>
 
@@ -169,6 +169,18 @@ THE SOFTWARE.
 	  <artifactId>maven-scm-api</artifactId>
 	  <version>1.5</version>
 	</dependency>
+	<dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-taskqueue</artifactId>
+      <version>1.0-alpha-8</version>
+      <exclusions>
+      	<exclusion>
+      		<artifactId>plexus-component-api</artifactId>
+      		<groupId>org.codehaus.plexus</groupId>
+      	</exclusion>
+      </exclusions>
+	</dependency>
+	
     
     <dependency>
       <groupId>org.sonatype.aether</groupId>

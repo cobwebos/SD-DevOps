@@ -20,9 +20,9 @@
 <component-set>
   <components>
     <component>
-      <role>org.apache.maven.continuum.release.ContinuumReleaseManager</role>
+      <role>org.jenkinsci.maven.release.ReleaseManager</role>
       <role-hint>default</role-hint>
-      <implementation>org.apache.maven.continuum.release.DefaultContinuumReleaseManager</implementation>
+      <implementation>org.jenkinsci.maven.release.ReleaseManager</implementation>
       <requirements>
         <requirement>
           <role>org.apache.maven.shared.release.config.ReleaseDescriptorStore</role>
@@ -76,7 +76,7 @@
       <implementation>org.apache.maven.continuum.release.executors.PrepareReleaseTaskExecutor</implementation>
       <requirements>
         <requirement>
-          <role>org.apache.maven.continuum.release.ContinuumReleaseManager</role>
+          <role>org.jenkinsci.maven.release.ReleaseManager</role>
         </requirement>
         <requirement>
           <role>org.apache.maven.shared.release.ReleaseManager</role>
@@ -134,7 +134,7 @@
       <implementation>org.apache.maven.continuum.release.executors.PerformReleaseTaskExecutor</implementation>
       <requirements>
         <requirement>
-          <role>org.apache.maven.continuum.release.ContinuumReleaseManager</role>
+          <role>org.jenkinsci.maven.release.ReleaseManager</role>
         </requirement>
         <requirement>
           <role>org.apache.maven.shared.release.ReleaseManager</role>
@@ -195,7 +195,7 @@
       <implementation>org.apache.maven.continuum.release.executors.RollbackReleaseTaskExecutor</implementation>
       <requirements>
         <requirement>
-          <role>org.apache.maven.continuum.release.ContinuumReleaseManager</role>
+          <role>org.jenkinsci.maven.release.ReleaseManager</role>
         </requirement>
         <requirement>
           <role>org.apache.maven.shared.release.ReleaseManager</role>

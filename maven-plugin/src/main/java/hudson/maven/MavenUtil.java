@@ -199,6 +199,7 @@ public class MavenUtil {
             }
         }
 
+//        mavenRequest.setContainerClassPathScanning("ON"); //ON, OFF, CACHE, INDEX
         mavenRequest.setProcessPlugins( mavenEmbedderRequest.isProcessPlugins() );
         mavenRequest.setResolveDependencies( mavenEmbedderRequest.isResolveDependencies() );
         mavenRequest.setValidationLevel( mavenEmbedderRequest.getValidationLevel() );

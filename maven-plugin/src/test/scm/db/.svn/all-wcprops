@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/repos/asf/!svn/ver/1070743/continuum/trunk/continuum-release/src/test/scm/db
+END
+format
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/repos/asf/!svn/ver/632133/continuum/trunk/continuum-release/src/test/scm/db/format
+END
+write-lock
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/repos/asf/!svn/ver/632133/continuum/trunk/continuum-release/src/test/scm/db/write-lock
+END
+current
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/repos/asf/!svn/ver/1070743/continuum/trunk/continuum-release/src/test/scm/db/current
+END
+fs-type
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/repos/asf/!svn/ver/632133/continuum/trunk/continuum-release/src/test/scm/db/fs-type
+END
+uuid
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/repos/asf/!svn/ver/632133/continuum/trunk/continuum-release/src/test/scm/db/uuid
+END

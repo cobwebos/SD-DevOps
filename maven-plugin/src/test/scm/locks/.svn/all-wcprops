@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/repos/asf/!svn/ver/632133/continuum/trunk/continuum-release/src/test/scm/locks
+END
+db.lock
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/repos/asf/!svn/ver/632133/continuum/trunk/continuum-release/src/test/scm/locks/db.lock
+END
+db-logs.lock
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/repos/asf/!svn/ver/632133/continuum/trunk/continuum-release/src/test/scm/locks/db-logs.lock
+END

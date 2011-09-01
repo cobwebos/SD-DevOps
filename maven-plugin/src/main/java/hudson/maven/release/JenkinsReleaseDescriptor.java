@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.maven.shared.release.config.ReleaseDescriptor;
 
 /**
+ * @author domi
  * @author <a href="mailto:ctan@apache.org">Maria Catherine Tan</a>
  */
 public class JenkinsReleaseDescriptor extends ReleaseDescriptor {

@@ -27,10 +27,12 @@ import hudson.maven.release.JenkinsReleaseException;
 import hudson.maven.release.JenkinsReleaseManager;
 import hudson.maven.release.tasks.ReleaseProjectTask;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectBuildingException;
 import org.apache.maven.settings.MavenSettingsBuilder;
@@ -69,9 +71,7 @@ public abstract class AbstractReleaseTaskExecutor implements ReleaseTaskExecutor
 
 	public void executeTask(Task task) throws TaskExecutionException {
 		ReleaseProjectTask releaseTask = (ReleaseProjectTask) task;
-
 		setUp(releaseTask);
-
 		execute(releaseTask);
 	}
 

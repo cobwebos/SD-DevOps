@@ -23,6 +23,7 @@ import hudson.maven.release.JenkinsReleaseDescriptor;
 import hudson.maven.release.tasks.PrepareReleaseProjectTask;
 import hudson.maven.release.tasks.ReleaseProjectTask;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.project.MavenProject;
@@ -40,7 +41,7 @@ public class PrepareReleaseTaskExecutor extends AbstractReleaseTaskExecutor {
 
 		JenkinsReleaseDescriptor descriptor = prepareTask.getDescriptor();
 
-		List<MavenProject> mavenProjects = this.getMavenProjects(descriptor);
+		List<MavenProject> mavenProjects = new ArrayList<MavenProject>();
 
 		boolean resume = false;
 		boolean dryRun = false;

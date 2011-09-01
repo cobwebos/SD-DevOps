@@ -24,7 +24,6 @@
 package hudson.maven;
 
 import hudson.model.BuildListener;
-import jenkins.model.Jenkins;
 import hudson.model.Result;
 import hudson.remoting.DelegatingCallable;
 
@@ -32,6 +31,8 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Map;
+
+import jenkins.model.Jenkins;
 
 /**
  * @author Olivier Lamy

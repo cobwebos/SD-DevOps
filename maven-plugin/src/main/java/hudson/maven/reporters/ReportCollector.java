@@ -23,19 +23,20 @@
  */
 package hudson.maven.reporters;
 
+import hudson.maven.MavenBuild;
+import hudson.maven.MavenBuildProxy;
 import hudson.maven.MavenModule;
 import hudson.maven.MavenReporter;
 import hudson.maven.MavenReporterDescriptor;
-import hudson.maven.MavenBuildProxy;
 import hudson.maven.MojoInfo;
-import hudson.maven.MavenBuild;
 import hudson.model.BuildListener;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Locale;
+
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.MavenReport;
-
-import java.io.IOException;
-import java.io.File;
-import java.util.Locale;
 
 /**
  * Watches out for executions of {@link MavenReport} mojos and record its output.

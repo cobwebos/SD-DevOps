@@ -26,11 +26,14 @@ package hudson.maven.reporters;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.Util;
-import hudson.maven.*;
+import hudson.maven.MavenBuild;
+import hudson.maven.MavenBuildProxy;
+import hudson.maven.MavenModule;
+import hudson.maven.MavenReporter;
+import hudson.maven.MavenReporterDescriptor;
+import hudson.maven.MojoInfo;
 import hudson.model.BuildListener;
 import hudson.util.InvocationInterceptor;
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,6 +44,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.project.MavenProject;
 
 /**
  * Archives artifacts of the build.

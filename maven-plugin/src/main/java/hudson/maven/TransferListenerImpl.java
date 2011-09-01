@@ -24,10 +24,11 @@
 package hudson.maven;
 
 import hudson.model.TaskListener;
-import org.apache.maven.wagon.events.TransferEvent;
-import org.apache.maven.wagon.events.TransferListener;
 
 import java.io.PrintStream;
+
+import org.apache.maven.wagon.events.TransferEvent;
+import org.apache.maven.wagon.events.TransferListener;
 
 /**
  * {@link TransferListener} implementation.

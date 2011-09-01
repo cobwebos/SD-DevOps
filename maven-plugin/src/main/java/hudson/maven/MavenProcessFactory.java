@@ -23,13 +23,12 @@
  */
 package hudson.maven;
 
+import hudson.EnvVars;
 import hudson.FilePath;
 import hudson.Launcher;
-import hudson.EnvVars;
 import hudson.maven.agent.Main;
 import hudson.maven.agent.Maven21Interceptor;
 import hudson.model.BuildListener;
-import jenkins.model.Jenkins;
 import hudson.model.JDK;
 import hudson.model.Run.RunnerAbortedException;
 import hudson.model.TaskListener;
@@ -42,6 +41,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.logging.Logger;
+
+import jenkins.model.Jenkins;
 
 
 /**

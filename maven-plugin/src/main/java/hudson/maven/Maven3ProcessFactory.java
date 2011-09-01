@@ -27,7 +27,6 @@ import hudson.EnvVars;
 import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.BuildListener;
-import jenkins.model.Jenkins;
 import hudson.model.JDK;
 import hudson.model.Run.RunnerAbortedException;
 import hudson.model.TaskListener;
@@ -39,6 +38,8 @@ import hudson.util.ArgumentListBuilder;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+
+import jenkins.model.Jenkins;
 
 import org.jvnet.hudson.maven3.agent.Maven3Main;
 import org.jvnet.hudson.maven3.launcher.Maven3Launcher;

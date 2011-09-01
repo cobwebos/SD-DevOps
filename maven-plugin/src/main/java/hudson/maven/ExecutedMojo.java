@@ -25,7 +25,6 @@ package hudson.maven;
 
 import static hudson.Util.intern;
 import hudson.Util;
-import jenkins.model.Jenkins;
 import hudson.remoting.Which;
 import hudson.util.ReflectionUtils;
 
@@ -38,6 +37,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import jenkins.model.Jenkins;
 
 import org.apache.maven.plugin.descriptor.MojoDescriptor;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;

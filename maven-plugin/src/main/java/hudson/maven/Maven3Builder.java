@@ -28,7 +28,6 @@ import hudson.maven.MavenBuild.ProxyImpl2;
 import hudson.maven.util.ExecutionEventLogger;
 import hudson.model.BuildListener;
 import hudson.model.Executor;
-import jenkins.model.Jenkins;
 import hudson.model.Result;
 import hudson.remoting.Channel;
 import hudson.remoting.DelegatingCallable;
@@ -45,12 +44,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
+
+import jenkins.model.Jenkins;
 
 import org.apache.maven.cli.PrintStreamLogger;
 import org.apache.maven.execution.AbstractExecutionListener;

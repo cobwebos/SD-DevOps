@@ -23,11 +23,11 @@
  */
 package hudson.maven;
 
-import org.apache.maven.reporting.MavenReport;
-import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.Mojo;
-import org.codehaus.plexus.configuration.PlexusConfiguration;
+import org.apache.maven.plugin.MojoExecution;
+import org.apache.maven.reporting.MavenReport;
 import org.codehaus.plexus.component.configurator.expression.ExpressionEvaluator;
+import org.codehaus.plexus.configuration.PlexusConfiguration;
 
 /**
  * Information about {@link MavenReport} that was executed.

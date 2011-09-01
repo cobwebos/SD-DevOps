@@ -23,14 +23,14 @@
  */
 package hudson.maven;
 
-import org.apache.maven.project.MavenProject;
-import org.apache.maven.model.Plugin;
-import org.apache.maven.model.ReportPlugin;
-import org.apache.maven.model.Extension;
+import hudson.Functions;
 
 import java.io.Serializable;
 
-import hudson.Functions;
+import org.apache.maven.model.Extension;
+import org.apache.maven.model.Plugin;
+import org.apache.maven.model.ReportPlugin;
+import org.apache.maven.project.MavenProject;
 
 /**
  * group id + artifact id + version and a flag to know if it's a plugin 

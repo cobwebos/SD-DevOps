@@ -23,6 +23,7 @@
  */
 package hudson.maven;
 
+import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.tasks.BuildStep;
 

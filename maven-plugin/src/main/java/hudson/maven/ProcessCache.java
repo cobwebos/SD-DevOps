@@ -23,15 +23,15 @@
  */
 package hudson.maven;
 
-import hudson.Util;
 import hudson.Proc;
+import hudson.Util;
 import hudson.model.BuildListener;
 import hudson.model.JDK;
 import hudson.model.TaskListener;
 import hudson.remoting.Callable;
 import hudson.remoting.Channel;
-import hudson.remoting.VirtualChannel;
 import hudson.remoting.RequestAbortedException;
+import hudson.remoting.VirtualChannel;
 import hudson.tasks.Maven.MavenInstallation;
 import hudson.util.DelegatingOutputStream;
 import hudson.util.NullStream;
@@ -43,8 +43,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Properties;
 import java.util.WeakHashMap;
-import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Hold on to launched Maven processes so that multiple builds

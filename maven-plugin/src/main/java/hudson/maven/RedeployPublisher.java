@@ -54,6 +54,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import jenkins.model.Jenkins;
+import net.sf.json.JSONObject;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.artifact.Artifact;
@@ -70,9 +73,6 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
 import org.jenkinsci.lib.configprovider.model.Config;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
-
-import jenkins.model.Jenkins;
-import net.sf.json.JSONObject;
 
 /**
  * {@link Publisher} for {@link MavenModuleSetBuild} to deploy artifacts

@@ -29,10 +29,10 @@ import hudson.maven.MavenModule;
 import hudson.maven.MavenModuleSet;
 import hudson.maven.MavenModuleSetBuild;
 import hudson.model.Action;
+import hudson.tasks.junit.CaseResult;
 import hudson.tasks.test.AbstractTestResultAction;
 import hudson.tasks.test.AggregatedTestResultAction;
 import hudson.tasks.test.TestResultProjectAction;
-import hudson.tasks.junit.CaseResult;
 
 import java.util.List;
 import java.util.Map;

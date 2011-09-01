@@ -23,28 +23,28 @@
  */
 package hudson.maven;
 
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecution;
-import org.apache.maven.plugin.Mojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugin.descriptor.PluginDescriptor;
-import org.codehaus.classworlds.ClassRealm;
-import org.codehaus.plexus.configuration.PlexusConfiguration;
-import org.codehaus.plexus.component.configurator.expression.ExpressionEvaluator;
-import org.codehaus.plexus.component.configurator.converters.lookup.ConverterLookup;
-import org.codehaus.plexus.component.configurator.converters.lookup.DefaultConverterLookup;
-import org.codehaus.plexus.component.configurator.converters.ConfigurationConverter;
-import org.codehaus.plexus.component.configurator.ComponentConfigurationException;
+import hudson.util.InvocationInterceptor;
+import hudson.util.ReflectionUtils;
 
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
-import hudson.util.InvocationInterceptor;
-import hudson.util.ReflectionUtils;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.Mojo;
+import org.apache.maven.plugin.MojoExecution;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.descriptor.PluginDescriptor;
+import org.codehaus.classworlds.ClassRealm;
+import org.codehaus.plexus.component.configurator.ComponentConfigurationException;
+import org.codehaus.plexus.component.configurator.converters.ConfigurationConverter;
+import org.codehaus.plexus.component.configurator.converters.lookup.ConverterLookup;
+import org.codehaus.plexus.component.configurator.converters.lookup.DefaultConverterLookup;
+import org.codehaus.plexus.component.configurator.expression.ExpressionEvaluator;
+import org.codehaus.plexus.configuration.PlexusConfiguration;
 
 /**
  * Information about Mojo to be executed. This object provides

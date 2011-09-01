@@ -24,11 +24,12 @@
 package hudson.maven.reporters;
 
 import hudson.model.Action;
-import org.apache.maven.reporting.MavenReport;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.maven.reporting.MavenReport;
 
 /**
  * {@link Action} to display links to the generated {@link MavenReport Maven reports}.

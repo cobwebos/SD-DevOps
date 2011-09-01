@@ -23,13 +23,13 @@
  */
 package hudson.maven.reporters;
 
-import hudson.maven.MavenBuild;
 import hudson.maven.AggregatableAction;
 import hudson.maven.MavenAggregatedReport;
-import hudson.maven.MavenModuleSetBuild;
+import hudson.maven.MavenBuild;
 import hudson.maven.MavenModule;
-import hudson.model.BuildListener;
+import hudson.maven.MavenModuleSetBuild;
 import hudson.model.Action;
+import hudson.model.BuildListener;
 import hudson.tasks.junit.TestResult;
 import hudson.tasks.junit.TestResultAction;
 

@@ -30,20 +30,7 @@ import hudson.maven.MavenBuildProxy;
 import hudson.model.Api;
 import hudson.model.BuildListener;
 import hudson.model.FingerprintMap;
-import jenkins.model.Jenkins;
-
 import hudson.util.HttpResponses;
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.handler.ArtifactHandler;
-import org.apache.maven.artifact.handler.DefaultArtifactHandler;
-import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
-
-import com.google.common.collect.Maps;
-import org.kohsuke.stapler.AncestorInPath;
-import org.kohsuke.stapler.HttpResponse;
-import org.kohsuke.stapler.export.Exported;
-import org.kohsuke.stapler.export.ExportedBean;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,6 +38,20 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import jenkins.model.Jenkins;
+
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.factory.ArtifactFactory;
+import org.apache.maven.artifact.handler.ArtifactHandler;
+import org.apache.maven.artifact.handler.DefaultArtifactHandler;
+import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
+import org.kohsuke.stapler.AncestorInPath;
+import org.kohsuke.stapler.HttpResponse;
+import org.kohsuke.stapler.export.Exported;
+import org.kohsuke.stapler.export.ExportedBean;
+
+import com.google.common.collect.Maps;
 
 /**
  * Captures information about an artifact created by Maven and archived by

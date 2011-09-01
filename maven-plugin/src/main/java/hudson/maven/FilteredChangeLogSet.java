@@ -26,9 +26,9 @@ package hudson.maven;
 import hudson.scm.ChangeLogSet;
 import hudson.scm.ChangeLogSet.Entry;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Collections;
 
 /**
  * {@link ChangeLogSet} implementation used for {@link MavenBuild}.

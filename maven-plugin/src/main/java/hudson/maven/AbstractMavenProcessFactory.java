@@ -1,7 +1,6 @@
 package hudson.maven;
 
 import static hudson.Util.fixNull;
-
 import hudson.AbortException;
 import hudson.EnvVars;
 import hudson.FilePath;
@@ -26,6 +25,7 @@ import hudson.slaves.Channels;
 import hudson.tasks.Maven.MavenInstallation;
 import hudson.tasks._maven.MavenConsoleAnnotator;
 import hudson.util.ArgumentListBuilder;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -38,6 +38,7 @@ import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Arrays;
+
 import org.kohsuke.stapler.framework.io.IOException2;
 
 /*

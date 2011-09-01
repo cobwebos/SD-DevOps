@@ -17,14 +17,15 @@ package hudson.maven.settings;
 
 import hudson.ExtensionList;
 import hudson.FilePath;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.jenkinsci.lib.configprovider.ConfigProvider;
-import org.jenkinsci.lib.configprovider.model.Config;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.jenkinsci.lib.configprovider.ConfigProvider;
+import org.jenkinsci.lib.configprovider.model.Config;
 
 /**
  * @author Olivier Lamy

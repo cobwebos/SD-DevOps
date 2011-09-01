@@ -23,32 +23,34 @@
  */
 package hudson.maven.reporters;
 
-import hudson.FilePath;
 import hudson.Extension;
+import hudson.FilePath;
 import hudson.maven.MavenBuild;
 import hudson.maven.MavenBuildProxy;
 import hudson.maven.MavenBuildProxy.BuildCallable;
 import hudson.maven.MavenModule;
+import hudson.maven.MavenModuleSetBuild;
 import hudson.maven.MavenReporter;
 import hudson.maven.MavenReporterDescriptor;
 import hudson.maven.MojoInfo;
-import hudson.maven.MavenModuleSetBuild;
 import hudson.model.BuildListener;
 import hudson.model.FingerprintMap;
-import jenkins.model.Jenkins;
 import hudson.tasks.Fingerprinter.FingerprintAction;
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.List;
+
+import jenkins.model.Jenkins;
+
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.project.MavenProject;
 
 /**
  * Records fingerprints of the builds to keep track of dependencies.

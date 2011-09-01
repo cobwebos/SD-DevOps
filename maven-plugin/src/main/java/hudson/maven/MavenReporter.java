@@ -25,21 +25,24 @@ package hudson.maven;
 
 import hudson.ExtensionPoint;
 import hudson.Launcher;
+import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.BuildListener;
 import hudson.model.Describable;
-import jenkins.model.Jenkins;
 import hudson.tasks.BuildStep;
 import hudson.tasks.Publisher;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.project.MavenProject;
-import org.apache.maven.reporting.MavenReport;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+
+import jenkins.model.Jenkins;
+
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.project.MavenProject;
+import org.apache.maven.reporting.MavenReport;
 
 /**
  * Listens to the build execution of {@link MavenBuild},

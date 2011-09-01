@@ -23,27 +23,29 @@
  */
 package hudson.maven.reporters;
 
+import hudson.Extension;
+import hudson.maven.MavenBuild;
+import hudson.maven.MavenBuildProxy;
+import hudson.maven.MavenBuildProxy.BuildCallable;
 import hudson.maven.MavenModule;
 import hudson.maven.MavenReporter;
 import hudson.maven.MavenReporterDescriptor;
-import hudson.maven.MavenBuildProxy;
 import hudson.maven.MojoInfo;
-import hudson.maven.MavenBuild;
-import hudson.maven.MavenBuildProxy.BuildCallable;
 import hudson.model.BuildListener;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import jenkins.model.Jenkins;
-import hudson.Extension;
+
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.configuration.PlexusConfiguration;
 import org.codehaus.plexus.configuration.xml.XmlPlexusConfiguration;
-
-import java.io.IOException;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Map.Entry;
 
 /**
  * @author Kohsuke Kawaguchi

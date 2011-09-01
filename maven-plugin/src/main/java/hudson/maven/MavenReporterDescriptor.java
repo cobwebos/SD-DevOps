@@ -24,16 +24,18 @@
 package hudson.maven;
 
 import hudson.maven.reporters.MavenArtifactArchiver;
-import hudson.model.Descriptor;
 import hudson.model.Describable;
+import hudson.model.Descriptor;
+
+import java.util.Collection;
+
 import jenkins.model.Jenkins;
+
 import org.apache.commons.jelly.JellyException;
 import org.kohsuke.stapler.MetaClass;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.WebApp;
 import org.kohsuke.stapler.jelly.JellyClassTearOff;
-
-import java.util.Collection;
 
 /**
  * {@link Descriptor} for {@link MavenReporter}.

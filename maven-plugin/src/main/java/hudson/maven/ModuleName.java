@@ -23,13 +23,13 @@
  */
 package hudson.maven;
 
-import org.apache.maven.project.MavenProject;
-import org.apache.maven.model.Plugin;
-import org.apache.maven.model.Extension;
-import org.apache.maven.model.Dependency;
-import org.apache.maven.model.ReportPlugin;
-
 import java.io.Serializable;
+
+import org.apache.maven.model.Dependency;
+import org.apache.maven.model.Extension;
+import org.apache.maven.model.Plugin;
+import org.apache.maven.model.ReportPlugin;
+import org.apache.maven.project.MavenProject;
 
 /**
  * Version independent name of a Maven project.

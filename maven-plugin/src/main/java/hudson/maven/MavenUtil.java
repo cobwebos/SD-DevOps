@@ -28,7 +28,6 @@ import hudson.Util;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
-import jenkins.model.Jenkins;
 import hudson.model.TaskListener;
 import hudson.tasks.Maven.MavenInstallation;
 import hudson.tasks.Maven.ProjectWithMaven;
@@ -45,6 +44,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
+
+import jenkins.model.Jenkins;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -206,6 +207,8 @@ public class MavenUtil {
             
         // TODO check this MaskingClassLoader with maven 3 artifacts
         MavenEmbedder maven = new MavenEmbedder( mavenEmbedderClassLoader, mavenRequest );
+//        PlexusContainer plexusContainer = MavenEmbedderUtils.buildPlexusContainer(mavenEmbedderClassLoader, null, mavenRequest);
+//        plexusContainer.
 
         return maven;
     }

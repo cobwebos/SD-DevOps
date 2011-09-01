@@ -26,16 +26,19 @@ package hudson.maven;
 import hudson.EnvVars;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
-import jenkins.model.Jenkins;
 import hudson.remoting.Channel;
 import hudson.util.RemotingDiagnostics;
 import hudson.util.RemotingDiagnostics.HeapDump;
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.StaplerResponse;
 
-import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.Map;
+
+import javax.servlet.ServletException;
+
+import jenkins.model.Jenkins;
+
+import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
 
 /**
  * UI for probing Maven process.

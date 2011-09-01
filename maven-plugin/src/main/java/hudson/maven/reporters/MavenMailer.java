@@ -23,19 +23,20 @@
  */
 package hudson.maven.reporters;
 
-import hudson.Launcher;
 import hudson.Extension;
+import hudson.Launcher;
 import hudson.maven.MavenBuild;
 import hudson.maven.MavenReporter;
 import hudson.maven.MavenReporterDescriptor;
 import hudson.model.BuildListener;
 import hudson.tasks.MailSender;
 import hudson.tasks.Mailer;
-import org.kohsuke.stapler.StaplerRequest;
 
 import java.io.IOException;
 
 import net.sf.json.JSONObject;
+
+import org.kohsuke.stapler.StaplerRequest;
 
 /**
  * Sends out an e-mail notification for Maven build result.

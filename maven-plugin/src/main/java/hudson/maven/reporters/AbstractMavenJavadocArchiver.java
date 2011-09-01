@@ -24,23 +24,26 @@
  */
 package hudson.maven.reporters;
 
-import hudson.Extension;
 import hudson.FilePath;
 import hudson.Util;
-import hudson.maven.*;
+import hudson.maven.MavenBuildProxy;
+import hudson.maven.MavenModule;
+import hudson.maven.MavenModuleSet;
+import hudson.maven.MavenReportInfo;
+import hudson.maven.MavenReporter;
+import hudson.maven.MojoInfo;
 import hudson.model.AbstractItem;
 import hudson.model.Action;
 import hudson.model.BuildListener;
 import hudson.model.Result;
 import hudson.tasks.JavadocArchiver.JavadocAction;
-import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.component.configurator.ComponentConfigurationException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+
+import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.component.configurator.ComponentConfigurationException;
 
 /**
  * Records the javadoc and archives it.

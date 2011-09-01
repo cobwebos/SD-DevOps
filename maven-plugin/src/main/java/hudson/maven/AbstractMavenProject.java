@@ -28,18 +28,19 @@ import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.DependencyGraph;
-import jenkins.model.Jenkins;
+import hudson.model.DependencyGraph.Dependency;
 import hudson.model.ItemGroup;
 import hudson.model.Result;
 import hudson.model.Run;
 import hudson.model.TaskListener;
-import hudson.model.DependencyGraph.Dependency;
 import hudson.tasks.Maven.ProjectWithMaven;
 import hudson.triggers.Trigger;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import jenkins.model.Jenkins;
 
 /**
  * Common part between {@link MavenModule} and {@link MavenModuleSet}.

@@ -1,14 +1,30 @@
-<!-- The MIT License Copyright (c) 2004-2011, Sun Microsystems, Inc., Kohsuke Kawaguchi, Daniel Dyer, Erik Ramfelt, Stephen Connolly, Tom Huybrechts Permission is 
-	hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without 
-	restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit 
-	persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included 
-	in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
-	TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
-	CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-	DEALINGS IN THE SOFTWARE. -->
+<!--
+The MIT License
+
+Copyright (c) 2004-2011, Sun Microsystems, Inc., Kohsuke Kawaguchi,
+Daniel Dyer, Erik Ramfelt, Stephen Connolly, Tom Huybrechts
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.jenkins-ci.main</groupId>
@@ -16,11 +32,11 @@
     <version>1.430-SNAPSHOT</version>
   </parent>
 
-	<artifactId>maven-plugin</artifactId>
-	<packaging>hpi</packaging>
+  <artifactId>maven-plugin</artifactId>
+  <packaging>hpi</packaging>
 
-	<name>Maven Integration plugin</name>
-	<description>This plug-in provides deep integration of Jenkins and Maven. This functionality used to be part of the Jenkins core.
+  <name>Maven Integration plugin</name>
+  <description>This plug-in provides deep integration of Jenkins and Maven. This functionality used to be part of the Jenkins core.
   Now it is a plug-in that is installed by default, but can be disabled.</description>
   <url>http://wiki.jenkins-ci.org/display/JENKINS/Maven+2+Project+Plugin</url>
 
@@ -28,8 +44,8 @@
     <mavenInterceptorsVersion>1.2</mavenInterceptorsVersion>
     <mavenVersion>3.0.3</mavenVersion>
     <maven.version>${mavenVersion}</maven.version>
-    <aetherVersion>1.11</aetherVersion>
-    <sisuInjectVersion>2.2.0</sisuInjectVersion>
+    <aetherVersion>1.12</aetherVersion>
+    <sisuInjectVersion>2.2.2</sisuInjectVersion>
     <wagonVersion>1.0</wagonVersion>
   </properties>
 
@@ -137,6 +153,39 @@
       <version>${mavenVersion}</version>
     </dependency>   
     
+    	<dependency>
+			<groupId>org.apache.maven.shared</groupId>
+			<artifactId>maven-invoker</artifactId>
+			<version>2.0.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.release</groupId>
+			<artifactId>maven-release-manager</artifactId>
+			<version>2.2.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.codehaus.plexus</groupId>
+					<artifactId>plexus-container-default</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.scm</groupId>
+			<artifactId>maven-scm-api</artifactId>
+			<version>1.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-taskqueue</artifactId>
+			<version>1.0-alpha-8</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>plexus-component-api</artifactId>
+					<groupId>org.codehaus.plexus</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
     
     <dependency>
       <groupId>org.sonatype.aether</groupId>
@@ -456,5 +505,4 @@
     </build>
   </profile>
   </profiles>
->>>>>>> master
 </project>

@@ -77,6 +77,10 @@ public class ReleaseExecutorTest {// extends PlexusTestCase {
 		return ".";
 	}
 
+	private File getWorkSpaceDir() {
+		return new File(getBasedir(), "/target/dummy-ws/");
+	}
+
 	/**
 	 * Setup the SCM (Subversion) and create a maven embedder.
 	 * 
@@ -127,9 +131,9 @@ public class ReleaseExecutorTest {// extends PlexusTestCase {
 	public void releaseSimpleProject() throws Exception {
 
 		String scmPath = new File(getBasedir(), "target/scm-test").getAbsolutePath().replace('\\', '/');
-		File workDir = new File(getBasedir(), "target/test-classes/work-dir");
+		File workDir = new File(getWorkSpaceDir(), "work-dir");
 		FileUtils.deleteDirectory(workDir);
-		File testDir = new File(getBasedir(), "target/test-classes/test-dir");
+		File testDir = new File(getWorkSpaceDir(), "test-dir");
 		FileUtils.deleteDirectory(testDir);
 
 		JenkinsReleaseDescriptor descriptor = new JenkinsReleaseDescriptor();
@@ -161,9 +165,9 @@ public class ReleaseExecutorTest {// extends PlexusTestCase {
 
 	public void releaseAndRollbackProject() throws Exception {
 		String scmPath = new File(getBasedir(), "target/scm-test").getAbsolutePath().replace('\\', '/');
-		File workDir = new File(getBasedir(), "target/test-classes/work-dir");
+		File workDir = new File(getWorkSpaceDir(), "work-dir");
 		FileUtils.deleteDirectory(workDir);
-		File testDir = new File(getBasedir(), "target/test-classes/test-dir");
+		File testDir = new File(getWorkSpaceDir(), "test-dir");
 		FileUtils.deleteDirectory(testDir);
 
 		JenkinsReleaseDescriptor descriptor = new JenkinsReleaseDescriptor();
@@ -205,9 +209,9 @@ public class ReleaseExecutorTest {// extends PlexusTestCase {
 
 	public void releaseSimpleProjectWithNextVersion() throws Exception {
 		String scmPath = new File(getBasedir(), "target/scm-test").getAbsolutePath().replace('\\', '/');
-		File workDir = new File(getBasedir(), "target/test-classes/work-dir");
+		File workDir = new File(getWorkSpaceDir(), "work-dir");
 		FileUtils.deleteDirectory(workDir);
-		File testDir = new File(getBasedir(), "target/test-classes/test-dir");
+		File testDir = new File(getWorkSpaceDir(), "test-dir");
 		FileUtils.deleteDirectory(testDir);
 
 		JenkinsReleaseDescriptor descriptor = new JenkinsReleaseDescriptor();
@@ -249,9 +253,9 @@ public class ReleaseExecutorTest {// extends PlexusTestCase {
 
 	public void releasePerformWithExecutableInDescriptor() throws Exception {
 		String scmPath = new File(getBasedir(), "target/scm-test").getAbsolutePath().replace('\\', '/');
-		File workDir = new File(getBasedir(), "target/test-classes/work-dir");
+		File workDir = new File(getWorkSpaceDir(), "work-dir");
 		FileUtils.deleteDirectory(workDir);
-		File testDir = new File(getBasedir(), "target/test-classes/test-dir");
+		File testDir = new File(getWorkSpaceDir(), "test-dir");
 		FileUtils.deleteDirectory(testDir);
 
 		JenkinsReleaseDescriptor descriptor = new JenkinsReleaseDescriptor();
@@ -302,7 +306,7 @@ public class ReleaseExecutorTest {// extends PlexusTestCase {
 			IOUtil.close(inStream);
 		}
 
-		performEx.executeTask(getPerformTask("testRelease", descriptor, new File(getBasedir(), "target/test-classes/build-dir")));
+		performEx.executeTask(getPerformTask("testRelease", descriptor, new File(getWorkSpaceDir(), "build-dir")));
 
 		ReleaseResult result = (ReleaseResult) releaseManager.getReleaseResults().get("testRelease");
 
@@ -321,9 +325,9 @@ public class ReleaseExecutorTest {// extends PlexusTestCase {
 
 	public void releaseProjectWithDependencyOfCustomPackagingType() throws Exception {
 		String scmPath = new File(getBasedir(), "target/scm-test/continuum-1814").getAbsolutePath().replace('\\', '/');
-		File workDir = new File(getBasedir(), "target/test-classes/continuum-1814");
+		File workDir = new File(getWorkSpaceDir(), "continuum-1814");
 		FileUtils.deleteDirectory(workDir);
-		File testDir = new File(getBasedir(), "target/test-classes/test-dir");
+		File testDir = new File(getWorkSpaceDir(), "test-dir");
 		FileUtils.deleteDirectory(testDir);
 
 		JenkinsReleaseDescriptor descriptor = new JenkinsReleaseDescriptor();
@@ -351,7 +355,7 @@ public class ReleaseExecutorTest {// extends PlexusTestCase {
 		pom = FileUtils.readFileToString(new File(testDir, "pom.xml"));
 		assertTrue("Test released version", pom.indexOf("<version>1.6</version>") > 0);
 
-		performEx.executeTask(getPerformTask("testRelease", descriptor, new File(getBasedir(), "target/test-classes/build-dir")));
+		performEx.executeTask(getPerformTask("testRelease", descriptor, new File(getWorkSpaceDir(), "build-dir")));
 
 		ReleaseResult result = (ReleaseResult) releaseManager.getReleaseResults().get("testRelease");
 		if (result.getResultCode() != ReleaseResult.SUCCESS) {
@@ -370,12 +374,10 @@ public class ReleaseExecutorTest {// extends PlexusTestCase {
 	@Test
 	public void testReleaseProjectWithProfile() throws Exception {
 		String scmPath = new File(getBasedir(), "target/scm-test/continuum-2610").getAbsolutePath().replace('\\', '/');
-		File workDir = new File(getBasedir(), "target/test-classes/continuum-2610"); // checkout
-																						// to
-																						// this
-																						// directory
+		// checkout to this directory
+		File workDir = new File(getWorkSpaceDir(), "continuum-2610");
 		FileUtils.deleteDirectory(workDir);
-		File testDir = new File(getBasedir(), "target/test-classes/test-dir");
+		File testDir = new File(getWorkSpaceDir(), "test-dir");
 		FileUtils.deleteDirectory(testDir);
 
 		JenkinsReleaseDescriptor descriptor = new JenkinsReleaseDescriptor();
@@ -393,31 +395,34 @@ public class ReleaseExecutorTest {// extends PlexusTestCase {
 		scmManager.getProviderByRepository(repository).checkOut(repository, fileSet, (ScmVersion) null);
 
 		String pom = FileUtils.readFileToString(new File(workDir, "pom.xml"));
-		assertTrue("Test root dev version", pom.indexOf("<version>1.0-SNAPSHOT</version>") > 0);
+		final String versionStrBefor = "<version>1.0-SNAPSHOT</version>";
+		assertTrue("Test root dev version", pom.indexOf(versionStrBefor) > 0);
 		String moduleAPom = FileUtils.readFileToString(new File(workDir, "module-A/pom.xml"));
-		assertTrue("Test module A dev version", moduleAPom.indexOf("<version>1.0-SNAPSHOT</version>") > 0);
+		assertTrue("Test module A dev version", moduleAPom.indexOf(versionStrBefor) > 0);
 		String moduleBPom = FileUtils.readFileToString(new File(workDir, "module-B/pom.xml"));
-		assertTrue("Test module B dev version", moduleBPom.indexOf("<version>1.0-SNAPSHOT</version>") > 0);
+		assertTrue("Test module B dev version", moduleBPom.indexOf(versionStrBefor) > 0);
 
 		doPrepareWithNoError(descriptor);
 
 		pom = FileUtils.readFileToString(new File(workDir, "pom.xml"));
-		assertTrue("Test root version increment", pom.indexOf("<version>1.1-SNAPSHOT</version>") > 0);
+		final String newSnapshotVersionStr = "<version>1.1-SNAPSHOT</version>";
+		assertTrue("Test root version increment", pom.indexOf(newSnapshotVersionStr) > 0);
 		moduleAPom = FileUtils.readFileToString(new File(workDir, "module-A/pom.xml"));
-		assertTrue("Test module A version increment", moduleAPom.indexOf("<version>1.1-SNAPSHOT</version>") > 0);
+		assertTrue("Test module A version increment", moduleAPom.indexOf(newSnapshotVersionStr) > 0);
 		moduleBPom = FileUtils.readFileToString(new File(workDir, "module-B/pom.xml"));
-		assertTrue("Test module B version increment", moduleBPom.indexOf("<version>1.1-SNAPSHOT</version>") > 0);
+		assertTrue("Test module B version increment", moduleBPom.indexOf(newSnapshotVersionStr) > 0);
 
 		repository = getScmRepositorty("scm:svn:file://localhost/" + scmPath + "/tags/continuum-2610-1.0");
 		fileSet = new ScmFileSet(testDir);
 		scmManager.getProviderByRepository(repository).checkOut(repository, fileSet, (ScmVersion) null);
 
 		pom = FileUtils.readFileToString(new File(testDir, "pom.xml"));
-		assertTrue("Test root released version", pom.indexOf("<version>1.0</version>") > 0);
+		final String versionStrAfter = "<version>1.0</version>";
+		assertTrue("Test root released version", pom.indexOf(versionStrAfter) > 0);
 		moduleAPom = FileUtils.readFileToString(new File(testDir, "module-A/pom.xml"));
-		assertTrue("Test module A released version", moduleAPom.indexOf("<version>1.0</version>") > 0);
+		assertTrue("Test module A released version", moduleAPom.indexOf(versionStrAfter) > 0);
 		moduleBPom = FileUtils.readFileToString(new File(testDir, "module-B/pom.xml"));
-		assertTrue("Test module B released version", moduleBPom.indexOf("<version>1.0</version>") > 0);
+		assertTrue("Test module B released version", moduleBPom.indexOf(versionStrAfter) > 0);
 	}
 
 	private void doPrepareWithNoError(ReleaseDescriptor descriptor) throws TaskExecutionException {

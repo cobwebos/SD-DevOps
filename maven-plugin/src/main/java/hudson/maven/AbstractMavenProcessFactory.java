@@ -151,6 +151,7 @@ public abstract class AbstractMavenProcessFactory
         private static final long serialVersionUID = 1L;
 
         static final class AcceptorImpl implements Acceptor, Serializable {
+            private static final long serialVersionUID = -2226788819948521018L;
             private transient final ServerSocket serverSocket;
             private transient Socket socket;
 
@@ -185,6 +186,8 @@ public abstract class AbstractMavenProcessFactory
     }
     
     private static final class GetCharset implements Callable<String,IOException> {
+        private static final long serialVersionUID = 3459269768733083577L;
+
         public String call() throws IOException {
             return System.getProperty("file.encoding");
         }
@@ -310,6 +313,8 @@ public abstract class AbstractMavenProcessFactory
 
     
     protected static final class GetRemotingJar implements Callable<String,IOException> {
+        private static final long serialVersionUID = 6022357183425911351L;
+
         public String call() throws IOException {
             return Which.jarFile(hudson.remoting.Launcher.class).getPath();
         }

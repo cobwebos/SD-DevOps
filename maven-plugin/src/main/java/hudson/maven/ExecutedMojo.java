@@ -54,6 +54,7 @@ import org.kohsuke.stapler.Stapler;
  * @author Kohsuke Kawaguchi
  */
 public final class ExecutedMojo implements Serializable {
+    private static final long serialVersionUID = -3048316415397586490L;
     /**
      * Plugin group ID.
      */
@@ -150,7 +151,7 @@ public final class ExecutedMojo implements Serializable {
      *
      * TODO: better if XStream has a declarative way of marking fields as "target for intern".
      */
-    ExecutedMojo readResolve() {
+    protected Object readResolve() {
         return new ExecutedMojo(intern(groupId),intern(artifactId),intern(version),intern(goal),intern(executionId),duration,intern(digest));
     }
 

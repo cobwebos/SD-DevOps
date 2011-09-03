@@ -23,9 +23,11 @@ import static org.junit.Assert.assertTrue;
 import hudson.maven.MavenEmbedder;
 import hudson.maven.MavenEmbedderRequest;
 import hudson.maven.MavenUtil;
-import hudson.maven.release.tasks.PerformReleaseProjectTask;
-import hudson.maven.release.tasks.PrepareReleaseProjectTask;
-import hudson.maven.release.tasks.RollbackReleaseProjectTask;
+import hudson.maven.release.core.JenkinsReleaseDescriptor;
+import hudson.maven.release.core.JenkinsReleaseManager;
+import hudson.maven.release.core.tasks.PerformReleaseProjectTask;
+import hudson.maven.release.core.tasks.PrepareReleaseProjectTask;
+import hudson.maven.release.core.tasks.RollbackReleaseProjectTask;
 import hudson.model.StreamBuildListener;
 import hudson.model.TaskListener;
 import hudson.tasks.Maven.MavenInstallation;
@@ -89,6 +91,10 @@ public class ReleaseExecutorTest {// extends PlexusTestCase {
 	@Before
 	public void prepareTest() throws Exception {
 
+		if(!getWorkSpaceDir().exists()){
+			getWorkSpaceDir().mkdirs();
+		}
+		
 		FileUtils.deleteDirectory(new File("target/scm-test"));
 
 		File scmPath = new File(getBasedir(), "src/test/scm").getAbsoluteFile();

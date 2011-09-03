@@ -66,6 +66,13 @@ THE SOFTWARE.
     </dependencies>
   </dependencyManagement>
   <dependencies>
+  <dependency>
+  <groupId>org.jenkins-ci.main</groupId>
+  <artifactId>jenkins-war</artifactId>
+  <type>war</type>
+  <version>1.430-SNAPSHOT</version>
+  <scope>test</scope>
+</dependency>
     <dependency>
       <groupId>org.jenkins-ci.main</groupId>
       <artifactId>jenkins-core</artifactId>
@@ -185,7 +192,12 @@ THE SOFTWARE.
 				</exclusion>
 			</exclusions>
 		</dependency>
-
+		<dependency>
+			<!-- TODO currently a compile dependnecy, taken from continuum - do we need it realy? -->
+		    <groupId>org.apache.maven.scm</groupId>
+		    <version>1.5</version>
+  			<artifactId>maven-scm-provider-gitexe</artifactId>
+		</dependency>
     
     <dependency>
       <groupId>org.sonatype.aether</groupId>

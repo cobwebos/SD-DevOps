@@ -32,6 +32,7 @@ import hudson.FilePath.FileCallable;
 import hudson.Launcher;
 import hudson.Util;
 import hudson.maven.MavenBuild.ProxyImpl2;
+import hudson.maven.release.Mvn3ReleaseBuilder;
 import hudson.maven.reporters.MavenAggregatedArtifactRecord;
 import hudson.maven.reporters.MavenFingerprinter;
 import hudson.maven.reporters.MavenMailer;
@@ -85,6 +86,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import jenkins.model.Jenkins;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.BuildFailureException;
@@ -592,8 +594,10 @@ public class MavenModuleSetBuild extends AbstractMavenBuild<MavenModuleSet,Maven
                         ParametersAction parameters = getAction(ParametersAction.class);
                         if (parameters != null)
                             parameters.createBuildWrappers(MavenModuleSetBuild.this,wrappers);
-
+                        
+                        System.out.println("size: "+wrappers.size());
                         for( BuildWrapper w : wrappers) {
+                        	System.out.println("-->"+w);
                             Environment e = w.setUp(MavenModuleSetBuild.this, launcher, listener);
                             if(e==null)
                                 return (r = Result.FAILURE);
@@ -737,6 +741,10 @@ public class MavenModuleSetBuild extends AbstractMavenBuild<MavenModuleSet,Maven
                         }
 
                         margs.addTokenized(envVars.expand(project.getGoals()));
+                        
+                       	// TODO add support for pre steps
+                       	System.out.println("...do pre steps");
+                        
                         if (maven3orLater)
                         {   
                             
@@ -745,8 +753,12 @@ public class MavenModuleSetBuild extends AbstractMavenBuild<MavenModuleSet,Maven
                             {
                                 reporters.put( mavenModule.getModuleName(), mavenModule.createReporters() );
                             }
-                            Maven3Builder maven3Builder = 
-                                new Maven3Builder( slistener, proxies, reporters, margs.toList(), envVars, mavenBuildInformation );
+                            Maven3Builder maven3Builder = null;
+                            if(true){
+                            	maven3Builder = new Mvn3ReleaseBuilder( slistener, proxies, reporters, margs.toList(), envVars, mavenBuildInformation );
+                            }else{
+                            	maven3Builder = new Maven3Builder( slistener, proxies, reporters, margs.toList(), envVars, mavenBuildInformation );
+                            }
                             MavenProbeAction mpa=null;
                             try {
                                 mpa = new MavenProbeAction(project,process.channel);
@@ -775,6 +787,8 @@ public class MavenModuleSetBuild extends AbstractMavenBuild<MavenModuleSet,Maven
                                 process.discard();
                             }
                         }
+                        
+                        
                     } catch (InterruptedException e) {
                         r = Executor.currentExecutor().abortResult();
                         throw e;

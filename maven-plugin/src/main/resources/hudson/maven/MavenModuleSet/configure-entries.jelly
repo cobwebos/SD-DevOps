@@ -66,6 +66,9 @@ THE SOFTWARE.
     <f:entry title="${%Goals and options}" help="/plugin/maven-plugin/goals.html">
       <f:textbox name="goals" value="${it.userConfiguredGoals}"/>
     </f:entry>
+    
+    <f:optionalBlock name="maven.enableReleaseBuild" title="${%Enable release build}" checked="${it.enableReleaseBuild()}" />
+        
     <f:advanced>
       <f:entry title="MAVEN_OPTS" help="/plugin/maven-plugin/maven-opts.html">
         <f:expandableTextbox name="mavenOpts" value="${it.mavenOpts}" />

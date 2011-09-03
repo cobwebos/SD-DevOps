@@ -7,9 +7,9 @@
 <component-set>
 	<components>
 		<component>
-			<role>hudson.maven.release.JenkinsReleaseManager</role>
+			<role>hudson.maven.release.core.JenkinsReleaseManager</role>
 			<role-hint>default</role-hint>
-			<implementation>hudson.maven.release.DefaultJenkinsReleaseManager</implementation>
+			<implementation>hudson.maven.release.core.DefaultJenkinsReleaseManager</implementation>
 			<requirements>
 				<requirement>
 					<role>org.apache.maven.shared.release.config.ReleaseDescriptorStore</role>
@@ -56,10 +56,10 @@
 		<component>
 			<role>org.codehaus.plexus.taskqueue.execution.TaskExecutor</role>
 			<role-hint>prepare-release</role-hint>
-			<implementation>hudson.maven.release.executors.PrepareReleaseTaskExecutor</implementation>
+			<implementation>hudson.maven.release.core.executors.PrepareReleaseTaskExecutor</implementation>
 			<requirements>
 				<requirement>
-					<role>hudson.maven.release.JenkinsReleaseManager</role>
+					<role>hudson.maven.release.core.JenkinsReleaseManager</role>
 				</requirement>
 				<requirement>
 					<role>org.apache.maven.shared.release.ReleaseManager</role>
@@ -110,10 +110,10 @@
 		<component>
 			<role>org.codehaus.plexus.taskqueue.execution.TaskExecutor</role>
 			<role-hint>perform-release</role-hint>
-			<implementation>hudson.maven.release.executors.PerformReleaseTaskExecutor</implementation>
+			<implementation>hudson.maven.release.core.executors.PerformReleaseTaskExecutor</implementation>
 			<requirements>
 				<requirement>
-					<role>hudson.maven.release.JenkinsReleaseManager</role>
+					<role>hudson.maven.release.core.JenkinsReleaseManager</role>
 				</requirement>
 				<requirement>
 					<role>org.apache.maven.shared.release.ReleaseManager</role>
@@ -167,10 +167,10 @@
 		<component>
 			<role>org.codehaus.plexus.taskqueue.execution.TaskExecutor</role>
 			<role-hint>rollback-release</role-hint>
-			<implementation>hudson.maven.release.executors.RollbackReleaseTaskExecutor</implementation>
+			<implementation>hudson.maven.release.core.executors.RollbackReleaseTaskExecutor</implementation>
 			<requirements>
 				<requirement>
-					<role>hudson.maven.release.JenkinsReleaseManager</role>
+					<role>hudson.maven.release.core.JenkinsReleaseManager</role>
 				</requirement>
 				<requirement>
 					<role>org.apache.maven.shared.release.ReleaseManager</role>
@@ -271,7 +271,7 @@
 		<component>
 			<role>org.apache.maven.shared.release.phase.ReleasePhase</role>
 			<role-hint>update-working-copy</role-hint>
-			<implementation>hudson.maven.release.phase.UpdateWorkingCopyPhase</implementation>
+			<implementation>hudson.maven.release.core.phase.UpdateWorkingCopyPhase</implementation>
 			<requirements>
 				<requirement>
 					<role>org.apache.maven.shared.release.scm.ScmRepositoryConfigurator</role>
@@ -281,7 +281,7 @@
 		<component>
 			<role>org.apache.maven.shared.release.phase.ReleasePhase</role>
 			<role-hint>generate-reactor-projects</role-hint>
-			<implementation>hudson.maven.release.phase.GenerateReactorProjectsPhase</implementation>
+			<implementation>hudson.maven.release.core.phase.GenerateReactorProjectsPhase</implementation>
 		</component>
 		<component>
 			<role>org.apache.maven.shared.release.phase.ReleasePhase</role>
@@ -302,7 +302,7 @@
 		<component>
 			<role>org.apache.maven.shared.release.phase.ReleasePhase</role>
 			<role-hint>run-release-perform-goals</role-hint>
-			<implementation>hudson.maven.release.phase.RunPerformGoalsPhase</implementation>
+			<implementation>hudson.maven.release.core.phase.RunPerformGoalsPhase</implementation>
 			<requirements>
 <!-- 				<requirement> -->
 <!-- 					<role>org.apache.maven.shared.release.exec.MavenExecutor</role> -->
@@ -337,7 +337,7 @@
 		<component>
 			<role>org.apache.maven.shared.release.config.ReleaseDescriptorStore</role>
 			<role-hint>release-properties</role-hint>
-			<implementation>hudson.maven.release.JenkinsPropertiesReleaseDescriptorStore</implementation>
+			<implementation>hudson.maven.release.core.JenkinsPropertiesReleaseDescriptorStore</implementation>
 		</component>
 	</components>
 

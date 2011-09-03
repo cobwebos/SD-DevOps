@@ -139,6 +139,10 @@ public class MvnReleaseBuildWrapper extends BuildWrapper {
 			}
 		};
 	}
+	
+	public String getReleaseVersion(){
+		return releaseVersion;
+	}
 
 	void enableRelease() {
 		doRelease = true;

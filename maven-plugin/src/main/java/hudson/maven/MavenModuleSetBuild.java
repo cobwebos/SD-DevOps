@@ -33,6 +33,8 @@ import hudson.Launcher;
 import hudson.Util;
 import hudson.maven.MavenBuild.ProxyImpl2;
 import hudson.maven.release.Mvn3ReleaseBuilder;
+import hudson.maven.release.MvnReleaseAction;
+import hudson.maven.release.MvnReleaseBuildWrapper;
 import hudson.maven.reporters.MavenAggregatedArtifactRecord;
 import hudson.maven.reporters.MavenFingerprinter;
 import hudson.maven.reporters.MavenMailer;
@@ -563,6 +565,15 @@ public class MavenModuleSetBuild extends AbstractMavenBuild<MavenModuleSet,Maven
 
             try {
                 
+            	final MvnReleaseBuildWrapper m2Wrapper = project.getBuildWrappersList().get(MvnReleaseBuildWrapper.class);
+            	final MvnReleaseAction action = project.getAction(MvnReleaseAction.class);
+            	if(m2Wrapper !=null){
+            		System.out.println("wrapper*****->"+m2Wrapper.getReleaseVersion());
+            	}
+            	if(action !=null){
+            		System.out.println("action*****->"+action.getReleaseVersion());
+            	}
+            	
                 EnvVars envVars = getEnvironment(listener);
                 MavenInstallation mvn = project.getMaven();
                 if(mvn==null)

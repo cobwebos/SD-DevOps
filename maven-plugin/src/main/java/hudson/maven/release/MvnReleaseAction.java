@@ -58,6 +58,8 @@ public class MvnReleaseAction implements PermalinkProjectAction {
 	private MavenModuleSet project;
 	private boolean selectCustomScmCommentPrefix;
 	private boolean selectAppendHudsonUsername;
+	
+	private transient String releaseVersion;
 
 	public MvnReleaseAction(MavenModuleSet project, boolean selectCustomScmCommentPrefix, boolean selectAppendHudsonUsername) {
 		this.project = project;
@@ -183,6 +185,8 @@ public class MvnReleaseAction implements PermalinkProjectAction {
 		// this will throw an exception so control will terminate if the dev
 		// version is not a "SNAPSHOT".
 		enforceDeveloperVersion(developmentVersion);
+		
+		this.releaseVersion = releaseVersion;
 
 		// schedule release build
 		synchronized (project) {
@@ -208,6 +212,10 @@ public class MvnReleaseAction implements PermalinkProjectAction {
 				resp.sendRedirect(req.getContextPath() + '/' + project.getUrl() + '/' + getUrlName() + "/failed");
 			}
 		}
+	}
+	
+	public String getReleaseVersion() {
+		return releaseVersion;
 	}
 
 	/**

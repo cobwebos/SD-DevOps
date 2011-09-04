@@ -31,12 +31,12 @@
 						<f:entry title="Comment Prefix">
 							<f:textbox name="scmCommentPrefix" value="[maven-release-plugin]" />
 						</f:entry>
-						<f:entry title="Append Hudson Username" help="/plugin/m2release/help-actionRelease-appendHudsonUsername.html">
+						<f:entry title="Append Hudson Username" help="/plugin/maven-plugin/help-actionRelease-appendHudsonUsername.html">
 							<f:checkbox name="appendHudsonUserName" checked="${it.selectAppendHudsonUsername}"/>
 						</f:entry>
 					</f:optionalBlock>
 
-					<f:optionalBlock name="specifyScmTag" title="Specify custom SCM tag" checked="false" help="/plugin/m2release/help-actionRelease-specifyCustomScmTag.html">
+					<f:optionalBlock name="specifyScmTag" title="Specify custom SCM tag" checked="false" help="/plugin/maven-plugin/help-actionRelease-specifyCustomScmTag.html">
 						<f:entry title="SCM tag">
 							<f:textbox name="scmTag" value="${it.computeScmTag()}" />
 						</f:entry>

@@ -27,7 +27,6 @@ import hudson.maven.MavenModule;
 import hudson.maven.MavenModuleSet;
 import hudson.maven.Messages;
 import hudson.model.Cause.UserIdCause;
-import hudson.model.Hudson;
 import hudson.model.PermalinkProjectAction;
 
 import java.io.IOException;
@@ -40,6 +39,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
+
+import jenkins.model.Jenkins;
 
 import org.apache.maven.shared.release.versions.DefaultVersionInfo;
 import org.apache.maven.shared.release.versions.VersionParseException;
@@ -58,13 +59,28 @@ public class MvnReleaseAction implements PermalinkProjectAction {
 	private MavenModuleSet project;
 	private boolean selectCustomScmCommentPrefix;
 	private boolean selectAppendHudsonUsername;
-	
+
+	private transient boolean isReleaseBuild = false;
+
 	private transient String releaseVersion;
+	private transient String developmentVersion;
+	private transient boolean appendJenkinsBuildNumber;
+	private transient String repoDescription;
+	private transient String scmUsername;
+	private transient String scmPassword;
+	private transient String scmTag;
+	private transient String scmCommentPrefix;
+	private transient boolean appendJenkinsUserName;
+	private transient String setJenkinsUserName;
 
 	public MvnReleaseAction(MavenModuleSet project, boolean selectCustomScmCommentPrefix, boolean selectAppendHudsonUsername) {
 		this.project = project;
 		this.selectCustomScmCommentPrefix = selectCustomScmCommentPrefix;
 		this.selectAppendHudsonUsername = selectAppendHudsonUsername;
+	}
+
+	public boolean isReleaseBuild() {
+		return isReleaseBuild;
 	}
 
 	public List<Permalink> getPermalinks() {
@@ -84,7 +100,7 @@ public class MvnReleaseAction implements PermalinkProjectAction {
 	}
 
 	public String getUrlName() {
-		return "m2release"; //$NON-NLS-1$
+		return "mvnrelease"; //$NON-NLS-1$
 	}
 
 	public boolean isSelectCustomScmCommentPrefix() {
@@ -158,7 +174,7 @@ public class MvnReleaseAction implements PermalinkProjectAction {
 
 	public void doSubmit(StaplerRequest req, StaplerResponse resp) throws IOException, ServletException {
 		MvnReleaseBuildWrapper.checkReleasePermission(project);
-		MvnReleaseBuildWrapper m2Wrapper = project.getBuildWrappersList().get(MvnReleaseBuildWrapper.class);
+		MvnReleaseBuildWrapper wrapper = project.getBuildWrappersList().get(MvnReleaseBuildWrapper.class);
 
 		// JSON collapses everything in the dynamic specifyVersions section so
 		// we need to fall back to
@@ -176,7 +192,7 @@ public class MvnReleaseAction implements PermalinkProjectAction {
 		final boolean specifyScmTag = httpParams.containsKey("specifyScmTag"); //$NON-NLS-1$
 		final String scmTag = specifyScmTag ? getString("scmTag", httpParams) : null; //$NON-NLS-1$
 
-		final boolean appendHusonUserName = specifyScmCommentPrefix && httpParams.containsKey("appendHudsonUserName"); //$NON-NLS-1$
+		final boolean appendJenkinsUserName = specifyScmCommentPrefix && httpParams.containsKey("appendHudsonUserName"); //$NON-NLS-1$
 
 		final String releaseVersion = getString("releaseVersion", httpParams); //$NON-NLS-1$
 		final String developmentVersion = getString("developmentVersion", httpParams); //$NON-NLS-1$
@@ -185,24 +201,24 @@ public class MvnReleaseAction implements PermalinkProjectAction {
 		// this will throw an exception so control will terminate if the dev
 		// version is not a "SNAPSHOT".
 		enforceDeveloperVersion(developmentVersion);
-		
+
 		this.releaseVersion = releaseVersion;
 
 		// schedule release build
 		synchronized (project) {
 			if (project.scheduleBuild(0, new UserIdCause())) {
-				m2Wrapper.enableRelease();
-				m2Wrapper.setReleaseVersion(releaseVersion);
-				m2Wrapper.setDevelopmentVersion(developmentVersion);
-				m2Wrapper.setAppendHudsonBuildNumber(appendHudsonBuildNumber);
-				m2Wrapper.setCloseNexusStage(closeNexusStage);
-				m2Wrapper.setRepoDescription(repoDescription);
-				m2Wrapper.setScmUsername(scmUsername);
-				m2Wrapper.setScmPassword(scmPassword);
-				m2Wrapper.setScmTag(scmTag);
-				m2Wrapper.setScmCommentPrefix(scmCommentPrefix);
-				m2Wrapper.setAppendHusonUserName(appendHusonUserName);
-				m2Wrapper.setHudsonUserName(Hudson.getAuthentication().getName());
+				wrapper.enableRelease();
+				this.isReleaseBuild = true;
+				this.releaseVersion = releaseVersion;
+				this.developmentVersion = developmentVersion;
+				this.appendJenkinsBuildNumber = appendHudsonBuildNumber;
+				this.repoDescription = repoDescription;
+				this.scmUsername = scmUsername;
+				this.scmPassword = scmPassword;
+				this.scmTag = scmTag;
+				this.scmCommentPrefix = scmCommentPrefix;
+				this.appendJenkinsUserName = appendJenkinsUserName;
+				this.setJenkinsUserName = Jenkins.getAuthentication().getName();
 				// redirect to project page
 				resp.sendRedirect(req.getContextPath() + '/' + project.getUrl());
 			} else {
@@ -213,7 +229,7 @@ public class MvnReleaseAction implements PermalinkProjectAction {
 			}
 		}
 	}
-	
+
 	public String getReleaseVersion() {
 		return releaseVersion;
 	}
@@ -245,4 +261,67 @@ public class MvnReleaseAction implements PermalinkProjectAction {
 	}
 
 	private static final List<Permalink> PERMALINKS = Collections.singletonList(LastReleasePermalink.INSTANCE);
+
+	/**
+	 * @return the developmentVersion
+	 */
+	public String getDevelopmentVersion() {
+		return developmentVersion;
+	}
+
+	/**
+	 * @return the appendJenkinsBuildNumber
+	 */
+	public boolean isAppendJenkinsBuildNumber() {
+		return appendJenkinsBuildNumber;
+	}
+
+	/**
+	 * @return the repoDescription
+	 */
+	public String getRepoDescription() {
+		return repoDescription;
+	}
+
+	/**
+	 * @return the scmUsername
+	 */
+	public String getScmUsername() {
+		return scmUsername;
+	}
+
+	/**
+	 * @return the scmPassword
+	 */
+	public String getScmPassword() {
+		return scmPassword;
+	}
+
+	/**
+	 * @return the scmTag
+	 */
+	public String getScmTag() {
+		return scmTag;
+	}
+
+	/**
+	 * @return the scmCommentPrefix
+	 */
+	public String getScmCommentPrefix() {
+		return scmCommentPrefix;
+	}
+
+	/**
+	 * @return the appendJenkinsUserName
+	 */
+	public boolean isAppendJenkinsUserName() {
+		return appendJenkinsUserName;
+	}
+
+	/**
+	 * @return the setJenkinsUserName
+	 */
+	public String getSetJenkinsUserName() {
+		return setJenkinsUserName;
+	}
 }

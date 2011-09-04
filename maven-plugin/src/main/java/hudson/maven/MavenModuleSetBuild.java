@@ -565,13 +565,11 @@ public class MavenModuleSetBuild extends AbstractMavenBuild<MavenModuleSet,Maven
 
             try {
                 
-            	final MvnReleaseBuildWrapper m2Wrapper = project.getBuildWrappersList().get(MvnReleaseBuildWrapper.class);
-            	final MvnReleaseAction action = project.getAction(MvnReleaseAction.class);
-            	if(m2Wrapper !=null){
-            		System.out.println("wrapper*****->"+m2Wrapper.getReleaseVersion());
-            	}
-            	if(action !=null){
-            		System.out.println("action*****->"+action.getReleaseVersion());
+            	boolean isReleaseBuild = false;
+            	final MvnReleaseAction releaseAction = project.getAction(MvnReleaseAction.class);
+            	if(releaseAction !=null){
+            		isReleaseBuild = releaseAction.isReleaseBuild();
+            		System.out.println("action*****->"+releaseAction.getReleaseVersion()+ " - isRelease: "+isReleaseBuild);
             	}
             	
                 EnvVars envVars = getEnvironment(listener);
@@ -765,7 +763,7 @@ public class MavenModuleSetBuild extends AbstractMavenBuild<MavenModuleSet,Maven
                                 reporters.put( mavenModule.getModuleName(), mavenModule.createReporters() );
                             }
                             Maven3Builder maven3Builder = null;
-                            if(true){
+                            if(isReleaseBuild){
                             	maven3Builder = new Mvn3ReleaseBuilder( slistener, proxies, reporters, margs.toList(), envVars, mavenBuildInformation );
                             }else{
                             	maven3Builder = new Maven3Builder( slistener, proxies, reporters, margs.toList(), envVars, mavenBuildInformation );

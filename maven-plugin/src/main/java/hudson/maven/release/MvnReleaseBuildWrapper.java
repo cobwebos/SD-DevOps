@@ -27,25 +27,21 @@ import hudson.Extension;
 import hudson.Launcher;
 import hudson.maven.AbstractMavenProject;
 import hudson.maven.MavenBuild;
-import hudson.maven.MavenModule;
 import hudson.maven.MavenModuleSet;
-import hudson.maven.MavenModuleSetBuild;
 import hudson.maven.Messages;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.BuildListener;
-import hudson.model.Hudson;
 import hudson.model.Item;
-import hudson.model.Result;
-import hudson.model.Run;
 import hudson.security.Permission;
+import hudson.security.PermissionScope;
 import hudson.tasks.BuildWrapper;
 import hudson.tasks.BuildWrapperDescriptor;
-import hudson.util.RunList;
 
 import java.io.IOException;
 
+import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -56,30 +52,22 @@ import org.slf4j.LoggerFactory;
 /**
  * Wraps a {@link MavenBuild} to be able to run the <a
  * href="http://maven.apache.org/plugins/maven-release-plugin/">maven release
- * plugin</a> on demand, with the ability to auto close a Nexus Pro Staging Repo
+ * plugin</a> on demand.
  * 
- * @author domi
+ * Actualy we would like to remove this class at all - but currently we are not
+ * able to add new Actions right within {@link MavenModuleSet} :(
+ * 
  * @author James Nord
+ * @version 0.3
+ * @since 0.1
  */
 public class MvnReleaseBuildWrapper extends BuildWrapper {
 
 	private transient Logger log = LoggerFactory.getLogger(MvnReleaseBuildWrapper.class);
 
 	private transient boolean doRelease = false;
-	private transient boolean closeNexusStage = true;
 
 	private transient String releaseVersion;
-	private transient String developmentVersion;
-
-	private transient boolean appendHudsonBuildNumber;
-	private transient String repoDescription;
-	private transient String scmUsername;
-	private transient String scmPassword;
-	private transient String scmCommentPrefix;
-	private transient String scmTag;
-
-	private transient boolean appendHusonUserName;
-	private transient String hudsonUserName;
 
 	public String releaseGoals = DescriptorImpl.DEFAULT_RELEASE_GOALS;
 	public boolean selectCustomScmCommentPrefix = DescriptorImpl.DEFAULT_SELECT_CUSTOM_SCM_COMMENT_PREFIX;
@@ -89,11 +77,8 @@ public class MvnReleaseBuildWrapper extends BuildWrapper {
 	public MvnReleaseBuildWrapper(String releaseGoals, boolean selectCustomScmCommentPrefix, boolean selectAppendHudsonUsername) {
 		super();
 		this.releaseGoals = releaseGoals;
-	}
-
-	@Override
-	public Action getProjectAction(@SuppressWarnings("rawtypes") AbstractProject job) {
-		return new MvnReleaseAction((MavenModuleSet) job, selectCustomScmCommentPrefix, selectAppendHudsonUsername);
+		this.selectCustomScmCommentPrefix = selectCustomScmCommentPrefix;
+		this.selectAppendHudsonUsername = selectAppendHudsonUsername;
 	}
 
 	@Override
@@ -101,130 +86,33 @@ public class MvnReleaseBuildWrapper extends BuildWrapper {
 			InterruptedException {
 
 		if (!doRelease) {
-			// we are not performing a release so don't need a custom tearDown.
+			// we are not performing a release so don't need a custom
+			// tearDown.
 			return new Environment() {
 				/** intentionally blank */
 			};
 		}
-
-		// TODO how to pass the release information to Mvn3ReleaseBuiler?
-		
+		// reset for the next build.
+		doRelease = false;
 		build.addAction(new MvnReleaseBadgeAction("Release - " + releaseVersion));
+		System.out.println("badge action added...");
 
 		return new Environment() {
-
 			@Override
-			public boolean tearDown(@SuppressWarnings("rawtypes") AbstractBuild bld, BuildListener lstnr) throws IOException, InterruptedException {
-				boolean retVal = true;
-
-				if (bld.getResult().isBetterOrEqualTo(Result.SUCCESS)) {
-					// keep this build.
-					lstnr.getLogger().println("[MvnRelease] marking build to keep unti the next release build");
-					bld.keepLog();
-
-					for (Run run : (RunList<? extends Run>) (bld.getProject().getBuilds())) {
-						MvnReleaseBadgeAction a = run.getAction(MvnReleaseBadgeAction.class);
-						if (a != null && run.getResult() == Result.SUCCESS) {
-							if (bld.getNumber() != run.getNumber()) {
-								lstnr.getLogger().println("[MvnRelease] removing keep build from build " + run.getNumber());
-								run.keepLog(false);
-								break;
-							}
-						}
-					}
-
-				}
-
-				return retVal;
+			public boolean tearDown(AbstractBuild build, BuildListener listener) throws IOException, InterruptedException {
+				System.out.println("do we need some tear down actions?");
+				return super.tearDown(build, listener);
 			}
 		};
-	}
-	
-	public String getReleaseVersion(){
-		return releaseVersion;
 	}
 
 	void enableRelease() {
 		doRelease = true;
 	}
 
-	public void setReleaseVersion(String releaseVersion) {
-		this.releaseVersion = releaseVersion;
-	}
-
-	public void setDevelopmentVersion(String developmentVersion) {
-		this.developmentVersion = developmentVersion;
-	}
-
-	public void setAppendHudsonBuildNumber(boolean appendHudsonBuildNumber) {
-		this.appendHudsonBuildNumber = appendHudsonBuildNumber;
-	}
-
-	public void setCloseNexusStage(boolean closeNexusStage) {
-		this.closeNexusStage = closeNexusStage;
-	}
-
-	public void setRepoDescription(String repoDescription) {
-		this.repoDescription = repoDescription;
-	}
-
-	public void setScmUsername(String scmUsername) {
-		this.scmUsername = scmUsername;
-	}
-
-	public void setScmPassword(String scmPassword) {
-		this.scmPassword = scmPassword;
-	}
-
-	public void setScmCommentPrefix(String scmCommentPrefix) {
-		this.scmCommentPrefix = scmCommentPrefix;
-	}
-
-	/**
-	 * @param scmTag
-	 *            the scmTag to set
-	 */
-	public void setScmTag(String scmTag) {
-		this.scmTag = scmTag;
-	}
-
-	public void setAppendHusonUserName(boolean appendHusonUserName) {
-		this.appendHusonUserName = appendHusonUserName;
-	}
-
-	public boolean isSelectCustomScmCommentPrefix() {
-		return selectCustomScmCommentPrefix;
-	}
-
-	public void setSelectCustomScmCommentPrefix(boolean selectCustomScmCommentPrefix) {
-		this.selectCustomScmCommentPrefix = selectCustomScmCommentPrefix;
-	}
-
-	public boolean isSelectAppendHudsonUsername() {
-		return selectAppendHudsonUsername;
-	}
-
-	public void setSelectAppendHudsonUsername(boolean selectAppendHudsonUsername) {
-		this.selectAppendHudsonUsername = selectAppendHudsonUsername;
-	}
-
-	public void setHudsonUserName(String hudsonUserName) {
-		this.hudsonUserName = hudsonUserName;
-	}
-
-	private MavenModuleSet getModuleSet(AbstractBuild<?, ?> build) {
-		if (build instanceof MavenBuild) {
-			MavenBuild m2Build = (MavenBuild) build;
-			MavenModule mm = m2Build.getProject();
-			MavenModuleSet mmSet = mm.getParent();
-			return mmSet;
-		} else if (build instanceof MavenModuleSetBuild) {
-			MavenModuleSetBuild m2moduleSetBuild = (MavenModuleSetBuild) build;
-			MavenModuleSet mmSet = m2moduleSetBuild.getProject();
-			return mmSet;
-		} else {
-			return null;
-		}
+	@Override
+	public Action getProjectAction(@SuppressWarnings("rawtypes") AbstractProject job) {
+		return new MvnReleaseAction((MavenModuleSet) job, selectCustomScmCommentPrefix, selectAppendHudsonUsername);
 	}
 
 	public static boolean hasReleasePermission(@SuppressWarnings("rawtypes") AbstractProject job) {
@@ -240,12 +128,20 @@ public class MvnReleaseBuildWrapper extends BuildWrapper {
 		return (DescriptorImpl) super.getDescriptor();
 	}
 
+	public boolean isSelectAppendHudsonUsername() {
+		return selectAppendHudsonUsername;
+	}
+
+	public boolean isSelectCustomScmCommentPrefix() {
+		return selectCustomScmCommentPrefix;
+	}
+
 	@Extension
 	public static class DescriptorImpl extends BuildWrapperDescriptor {
 
 		public static final String DEFAULT_RELEASE_GOALS = "-Dresume=false release:prepare release:perform"; //$NON-NLS-1$
 		public static final Permission CREATE_RELEASE = new Permission(Item.PERMISSIONS, "Release", //$NON-NLS-1$
-				Messages._CreateReleasePermission_Description(), Hudson.ADMINISTER);
+				Messages._CreateReleasePermission_Description(), Jenkins.ADMINISTER, PermissionScope.JENKINS);
 
 		public static final boolean DEFAULT_SELECT_CUSTOM_SCM_COMMENT_PREFIX = false;
 		public static final boolean DEFAULT_SELECT_APPEND_HUDSON_USERNAME = false;
@@ -271,35 +167,6 @@ public class MvnReleaseBuildWrapper extends BuildWrapper {
 			return Messages.MvnReleaseWrapper_DisplayName();
 		}
 
-		/**
-		 * Checks if the Nexus URL exists and we can authenticate against it.
-		 * TODO add support for nexus
-		 */
-		/*
-		 * public FormValidation doUrlCheck(@QueryParameter String urlValue,
-		 * final @QueryParameter String usernameValue, final @QueryParameter
-		 * String passwordValue) throws IOException, ServletException { // this
-		 * method can be used to check if a file exists anywhere in the file
-		 * system, // so it should be protected. if
-		 * (!Hudson.getInstance().hasPermission(Hudson.ADMINISTER)) { return
-		 * FormValidation.ok(); }
-		 * 
-		 * urlValue = Util.fixEmptyAndTrim(urlValue); if (urlValue == null) {
-		 * return FormValidation.ok(); } final String testURL; if
-		 * (urlValue.endsWith("/")) { testURL = urlValue.substring(0,
-		 * urlValue.length() - 1); } else { testURL = urlValue; } URL url =
-		 * null; try { url = new URL(testURL); if
-		 * (!(url.getProtocol().equals("http") ||
-		 * url.getProtocol().equals("https"))) { return
-		 * FormValidation.error("protocol must be http or https"); } StageClient
-		 * client = new StageClient(new URL(testURL), usernameValue,
-		 * passwordValue); client.checkAuthentication(); } catch
-		 * (MalformedURLException ex) { return FormValidation.error(url +
-		 * " is not a valid URL"); } catch (StageException ex) { FormValidation
-		 * stageError = FormValidation.error(ex.getMessage());
-		 * stageError.initCause(ex); return stageError; } return
-		 * FormValidation.ok(); }
-		 */
 	}
 
 }

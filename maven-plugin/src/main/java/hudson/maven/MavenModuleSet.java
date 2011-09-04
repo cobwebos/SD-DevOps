@@ -32,15 +32,12 @@ import hudson.Extension;
 import hudson.ExtensionList;
 import hudson.FilePath;
 import hudson.Indenter;
-import hudson.Launcher;
 import hudson.Util;
-import hudson.maven.release.MvnReleaseAction;
+import hudson.maven.release.MvnReleaseBadgeAction;
 import hudson.maven.settings.GlobalMavenSettingsProvider;
 import hudson.maven.settings.MavenSettingsProvider;
-import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
-import hudson.model.BuildListener;
 import hudson.model.BuildableItemWithBuildWrappers;
 import hudson.model.DependencyGraph;
 import hudson.model.Descriptor;
@@ -115,6 +112,7 @@ import org.kohsuke.stapler.export.Exported;
  */
 public class MavenModuleSet extends AbstractMavenProject<MavenModuleSet, MavenModuleSetBuild> implements TopLevelItem, ItemGroup<MavenModule>, SCMedItem,
 		Saveable, BuildableItemWithBuildWrappers {
+	
 	/**
 	 * All {@link MavenModule}s, keyed by their
 	 * {@link MavenModule#getModuleName()} module name}s.
@@ -327,6 +325,8 @@ public class MavenModuleSet extends AbstractMavenProject<MavenModuleSet, MavenMo
 
 		return r;
 	}
+	
+	
 
 	protected void addTransientActionsFromBuild(MavenModuleSetBuild build, List<Action> collection, Set<Class> added) {
 		if (build == null)
@@ -962,8 +962,10 @@ public class MavenModuleSet extends AbstractMavenProject<MavenModuleSet, MavenMo
 
 		enableReleaseBuild = req.hasParameter("maven.enableReleaseBuild");
 		for (Action a : this.getActions()) {
+//			this.addTransientActionsFromBuild(build, collection, added)
 			System.out.println("-->" + a );
 		}
+//		this.addAction(new MvnReleaseBadgeAction("some version"));
 	}
 
 	boolean enableReleaseBuild = false;

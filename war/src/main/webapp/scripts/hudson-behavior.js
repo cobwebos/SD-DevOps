@@ -727,7 +727,9 @@ var hudsonRules = {
         var h = e.clientHeight;
         var config = e.getAttribute("codemirror-config") || "";
         config = eval('({'+config+'})');
-        var w = CodeMirror.fromTextArea(e,config).getWrapperElement();
+        var codemirror = CodeMirror.fromTextArea(e,config);
+        e.codemirrorObject = codemirror;
+        var w = codemirror.getWrapperElement();
         w.setAttribute("style","border:1px solid black;");
         w.style.height = h+"px";
     },

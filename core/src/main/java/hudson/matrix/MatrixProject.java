@@ -58,6 +58,8 @@ import hudson.util.DescribableList;
 import hudson.util.FormValidation;
 import hudson.util.FormValidation.Kind;
 import net.sf.json.JSONObject;
+import org.kohsuke.accmod.Restricted;
+import org.kohsuke.accmod.restrictions.NoExternalUse;
 import org.kohsuke.stapler.HttpResponse;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
@@ -273,7 +275,12 @@ public class MatrixProject extends AbstractProject<MatrixProject,MatrixBuild> im
     /**
      * If true, {@link MatrixRun}s will skip the SCM checkout and just go to the build step.
      *
+     * @deprecated
+     *      This will likely turned into an extension point of a strategy pattern
+     *      that allows other checkout behaviours, so please do not rely on this swtich
+     *      from plugins.
      */
+    @Restricted(NoExternalUse.class)
     public boolean isUseSameScmCheckout() {
         return useSameScmCheckout;
     }

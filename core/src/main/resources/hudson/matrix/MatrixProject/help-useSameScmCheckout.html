@@ -1,7 +1,11 @@
 <div>
     With this option checked, Jenkins will not do a checkout from the SCM system 
-    for each configuration.
-    This can be usefull if your configuration can build concurrent from the same 
+    for each configuration. It only checks out once as the parent of the matrix project.
+    This can be useful if your configuration can build concurrent from the same 
     master source (e.g. via network share or when all builds run on the same node), 
-    and it saves the time, bandwith and disk space of the SCM-checkout.
+    and it saves the time, bandwidth and disk space of the SCM-checkout.
+    
+    <p>
+    This feature is often used in conjunction with the custom workspace so that you
+    have a known fixed location of the workspace.
  </div>

@@ -41,6 +41,8 @@ THE SOFTWARE.
       <f:entry title="${%Display Name}" field="displayNameOrNull">
          <f:textbox checkUrl="'${rootURL}/checkDisplayName?displayName='+encodeURIComponent(this.value)+'&amp;jobName='+encodeURIComponent('${it.name}')"/>
       </f:entry>
+
+      <f:optionalBlock field="useSameScmCheckout" title="${%Check out only once}"/>
     </f:advanced>
   </f:section>
 
@@ -63,8 +65,6 @@ THE SOFTWARE.
                      addCaption="${%Add axis}"/>
     </f:block>
 
-    <f:optionalBlock field="useSameScmCheckout" title="${%Use same SCM checkout for all builds, each configuration uses master source via NFS/SMB}"/>
-    
     <f:optionalBlock name="hasCombinationFilter" title="${%Combination Filter}" checked="${!empty(it.combinationFilter)}"
         help="/help/matrix/combinationfilter.html">
 	    <f:entry title="${%Filter}">

@@ -539,6 +539,18 @@ THE SOFTWARE.
         <build>
             <plugins>
                 <plugin>
+                   <artifactId>maven-war-plugin</artifactId>
+                   <executions>
+                       <!-- re-bind exploded to prepare-package phase so static resources can be post-processed by grunt -->
+                       <execution>
+                           <phase>prepare-package</phase>
+                           <goals>
+                               <goal>exploded</goal>
+                           </goals>
+                       </execution>
+                    </executions>
+                </plugin>
+                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
                     <executions>

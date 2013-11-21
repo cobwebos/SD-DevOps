@@ -38,6 +38,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -128,9 +129,26 @@ public class Connection {
     }
 
     public byte[] readByteArray() throws IOException {
-        byte[] buf = new byte[din.readInt()];
-        din.readFully(buf);
-        return buf;
+        int sz = din.readInt();
+        Thread t = Thread.currentThread();
+        String oldName = t.getName();
+        t.setName("Reading "+sz+" bytes: "+ oldName);
+        try {
+            byte[] buf = new byte[sz];
+//            din.readFully(buf);   // for diagnosis, expanding readFully call
+            int n = 0;
+            while (n < sz) {
+                int count = in.read(buf, n, sz - n);
+                if (count < 0)
+                    throw new EOFException();
+                n += count;
+                t.setName("Reading "+n+"/"+sz+" bytes: "+ oldName);
+            }
+
+            return buf;
+        } finally {
+            t.setName(oldName);
+        }
     }
 
     /**

@@ -60,6 +60,7 @@ public class CliProtocol2 extends CliProtocol {
                     signer.initSign(instanceId);
                     signer.update(secret);
                     c.writeByteArray(signer.sign());
+                    c.dout.flush(); // suspecting bytes not getting flushed see JENKINS-20709
                 } catch (ClassNotFoundException e) {
                     throw new Error(e);
                 } catch (IllegalAccessException e) {

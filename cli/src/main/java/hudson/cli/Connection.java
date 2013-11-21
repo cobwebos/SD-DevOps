@@ -35,10 +35,10 @@ import javax.crypto.SecretKey;
 import javax.crypto.interfaces.DHPublicKey;
 import javax.crypto.spec.DHParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -276,5 +276,17 @@ public class Connection {
     public void close() throws IOException {
         in.close();
         out.close();
+    }
+
+    /**
+     * Produces the tracing output.
+     */
+    public Connection trace(File trace) throws IOException {
+        if (trace==null)    return this;
+
+        long time = System.currentTimeMillis();
+        return new Connection(
+                TraceOutputStream.wrap(in, new File(trace,time+".i.log")),
+                TraceOutputStream.wrap(out,new File(trace,time+".o.log")));
     }
 }

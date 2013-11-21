@@ -44,7 +44,7 @@ public class CliProtocol2 extends CliProtocol {
                 out.writeUTF("Welcome");
 
                 // perform coin-toss and come up with a session key to encrypt data
-                Connection c = new Connection(socket);
+                Connection c = new Connection(socket).trace(CLI.TRACE);
                 byte[] secret = c.diffieHellman(true).generateSecret();
                 SecretKey sessionKey = new SecretKeySpec(Connection.fold(secret,128/8),"AES");
                 c = c.encryptConnection(sessionKey,"AES/CFB8/NoPadding");

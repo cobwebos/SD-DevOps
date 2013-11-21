@@ -218,7 +218,7 @@ public class CLI {
             }
         });
 
-        Connection c = new Connection(new SocketInputStream(s),out);
+        Connection c = new Connection(new SocketInputStream(s),out).trace(TRACE);
 
         switch (clip.version) {
         case 1:
@@ -653,4 +653,14 @@ public class CLI {
     }
 
     private static final Logger LOGGER = Logger.getLogger(CLI.class.getName());
+
+    public static File TRACE = null;
+
+    static {
+        String t = System.getProperty(CLI.class.getName() + ".protocolTrace");
+        if (t!=null) {
+            TRACE = new File(t);
+            TRACE.mkdirs();
+        }
+    }
 }

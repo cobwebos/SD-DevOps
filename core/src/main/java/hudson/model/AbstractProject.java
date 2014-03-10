@@ -2096,16 +2096,26 @@ public abstract class AbstractProject<P extends AbstractProject<P,R>,R extends A
         checkPermission(Functions.isWipeOutPermissionEnabled() ? WIPEOUT : BUILD);
         R b = getSomeBuildWithWorkspace();
         FilePath ws = b!=null ? b.getWorkspace() : null;
-        if (ws!=null && getScm().processWorkspaceBeforeDeletion(this, ws, b.getBuiltOn())) {
+        if (ws == null) {
+            return new ForwardToView(this,"wipeOutWorkspaceOffline.jelly");
+        }
+
+        if (getScm().processWorkspaceBeforeDeletion(this, ws, b.getBuiltOn())) {
+            // If we get here, that means the SCM blocked the workspace deletion.
+            return new ForwardToView(this,"wipeOutWorkspaceBlocked.jelly");
+        }
+
+        WorkspaceList l = b.getBuiltOn().toComputer().getWorkspaceList();
+        WorkspaceList.Lease lease = l.acquire(ws);
+        try {
             ws.deleteRecursive();
             for (WorkspaceListener wl : WorkspaceListener.all()) {
                 wl.afterDelete(this);
             }
-            return new HttpRedirect(".");
-        } else {
-            // If we get here, that means the SCM blocked the workspace deletion.
-            return new ForwardToView(this,"wipeOutWorkspaceBlocked.jelly");
+        } finally {
+            lease.release();
         }
+        return new HttpRedirect(".");
     }
 
     @CLIMethod(name="disable-job")

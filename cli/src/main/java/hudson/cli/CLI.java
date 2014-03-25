@@ -218,7 +218,7 @@ public class CLI {
             }
         });
 
-        Connection c = new Connection(new SocketInputStream(s),out).trace(TRACE);
+        Connection c = new Connection(new SocketInputStream(s),out);
 
         switch (clip.version) {
         case 1:
@@ -237,6 +237,7 @@ public class CLI {
                 byte[] secret = c.diffieHellman(false).generateSecret();
                 SecretKey sessionKey = new SecretKeySpec(Connection.fold(secret,128/8),"AES");
                 c = c.encryptConnection(sessionKey,"AES/CFB8/NoPadding");
+                c = c.trace(TRACE);
 
                 // validate the instance identity, so that we can be sure that we are talking to the same server
                 // and there's no one in the middle.

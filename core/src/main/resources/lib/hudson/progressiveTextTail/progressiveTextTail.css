@@ -1,0 +1,4 @@
+/* once completed updating, hide the spinner */
+PRE.console-output.done + .console-output-spinner {
+    visibility: hidden;
+}

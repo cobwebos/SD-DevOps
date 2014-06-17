@@ -1636,23 +1636,33 @@ public class Functions {
      * from {@link ConsoleAnnotatorFactory}s and {@link ConsoleAnnotationDescriptor}s.
      */
     public static String generateConsoleAnnotationScriptAndStylesheet() {
-        String cp = Stapler.getCurrentRequest().getContextPath();
-        StringBuilder buf = new StringBuilder();
-        for (ConsoleAnnotatorFactory f : ConsoleAnnotatorFactory.all()) {
-            String path = cp + "/extensionList/" + ConsoleAnnotatorFactory.class.getName() + "/" + f.getClass().getName();
-            if (f.hasScript())
-                buf.append("<script src='").append(path).append("/script.js'></script>");
-            if (f.hasStylesheet())
-                buf.append("<link rel='stylesheet' type='text/css' href='").append(path).append("/style.css' />");
+        StaplerRequest req = Stapler.getCurrentRequest();
+
+        String keyName = Functions.class.getName() + ".generateConsoleAnnotationScriptAndStylesheet";
+        if (req.getAttribute(keyName)==null) {
+            req.setAttribute(keyName,true);
+
+            String cp = req.getContextPath();
+            StringBuilder buf = new StringBuilder();
+            for (ConsoleAnnotatorFactory f : ConsoleAnnotatorFactory.all()) {
+                String path = cp + "/extensionList/" + ConsoleAnnotatorFactory.class.getName() + "/" + f.getClass().getName();
+                if (f.hasScript())
+                    buf.append("<script src='").append(path).append("/script.js'></script>");
+                if (f.hasStylesheet())
+                    buf.append("<link rel='stylesheet' type='text/css' href='").append(path).append("/style.css' />");
+            }
+            for (ConsoleAnnotationDescriptor d : ConsoleAnnotationDescriptor.all()) {
+                String path = cp+"/descriptor/"+d.clazz.getName();
+                if (d.hasScript())
+                    buf.append("<script src='").append(path).append("/script.js'></script>");
+                if (d.hasStylesheet())
+                    buf.append("<link rel='stylesheet' type='text/css' href='").append(path).append("/style.css' />");
+            }
+            return buf.toString();
+        } else {
+            // no-op. already generated
+            return "";
         }
-        for (ConsoleAnnotationDescriptor d : ConsoleAnnotationDescriptor.all()) {
-            String path = cp+"/descriptor/"+d.clazz.getName();
-            if (d.hasScript())
-                buf.append("<script src='").append(path).append("/script.js'></script>");
-            if (d.hasStylesheet())
-                buf.append("<link rel='stylesheet' type='text/css' href='").append(path).append("/style.css' />");
-        }
-        return buf.toString();
     }
 
     /**

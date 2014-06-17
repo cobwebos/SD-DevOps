@@ -6,7 +6,6 @@
   <l:layout title="${it.fullDisplayName} Short Console" norefresh="true">
     <st:include page="sidepanel.jelly" />
     <l:main-panel>
-      <j:out value="${h.generateConsoleAnnotationScriptAndStylesheet()}"/>
       <t:progressiveTextTail lines="30" href="logText/progressiveHtml" offset="${it.logText.length()-4096}" />
     </l:main-panel>
   </l:layout>

@@ -24,7 +24,28 @@ THE SOFTWARE.
 
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <st:documentation>
+    Generates a console output that shows the last N lines of the console output.
+    Unlike the usual console output, this control has a fixed maximum height.
+
+    <st:attribute name="lines">
+      Total number of lines to show in the control.
+    </st:attribute>
+    <st:attribute name="href">
+      'progressiveHtml' URL that provides the up-to-date console output.
+      Expected to hit AnnotatedLargeText.doProgressiveHtml()
+    </st:attribute>
+    <st:attribute name="offset">
+      Starting byte offset of the log file to begin displaying.
+      Usually you do something like 'it.logText.length()-4096' to start with some reasonable number
+      of bytes before the end.
+
+      Value less than 0 is treated as 0 so that the caller can skip the boundary check.
+    </st:attribute>
+  </st:documentation>
+
   <st:adjunct includes="lib.hudson.progressiveTextTail.progressiveTextTail"/>
+  <j:out value="${h.generateConsoleAnnotationScriptAndStylesheet()}"/>
   <div class="console-output-container">
     <pre class="console-output tail" lines="${attrs.lines}" href="${attrs.href}" offset="${attrs.offset}" />
     <img src="${imagesURL}/spinner.gif" class="console-output-spinner" alt="" />

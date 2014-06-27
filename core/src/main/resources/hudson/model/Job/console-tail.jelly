@@ -1,7 +1,7 @@
 <!--
 The MIT License
 
-Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi, Erik Ramfelt, Tom Huybrechts, id:cactusman
+Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
+<!--Show the tail section of the console output -->
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
-  <l:layout title="${it.displayName}${not empty it.parent.fullDisplayName?' ['+it.parent.fullDisplayName+']':''}">
-    <st:include page="sidepanel.jelly" />
-    <l:main-panel>
-      <h1 class="job-index-headline page-headline">${it.pronoun} <l:breakable value="${it.displayName}"/></h1>
-      <j:if test="${(it.name!=it.displayName) and (it.class.name!='hudson.matrix.MatrixConfiguration')}"> <!-- TODO rather check for TopLevelItem (how to do this from Jelly?) -->
-        ${%Project name}: ${it.fullName}
-      </j:if>
-      <t:editableDescription permission="${it.CONFIGURE}"/>
-
-      <st:include page="jobpropertysummaries.jelly" />
-      <!-- inject main part here -->
-      <st:include page="main.jelly" />
-
-      <st:include page="console-tail.jelly" />
-      <st:include page="permalinks.jelly" />
-    </l:main-panel>
-  </l:layout>
+  <j:set var="lastBuild" value="${it.lastBuild}"/>
+  <j:if test="${lastBuild.isLogUpdated()}">
+    <h2 class="console-tail-header">${%Console}: ${lastBuild.displayName}</h2>
+    <t:progressiveTextTail lines="30" href="${lastBuild.number}/logText/progressiveHtml" offset="${lastBuild.logText.length()-4096}" />
+  </j:if>
 </j:jelly>

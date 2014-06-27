@@ -46,7 +46,7 @@ THE SOFTWARE.
 
   <st:adjunct includes="lib.hudson.progressiveTextTail.progressiveTextTail"/>
   <j:out value="${h.generateConsoleAnnotationScriptAndStylesheet()}"/>
-  <div class="console-output-container">
+  <div class="console-output-container tail">
     <pre class="console-output tail" lines="${attrs.lines}" href="${attrs.href}" offset="${attrs.offset}" />
     <img src="${imagesURL}/spinner.gif" class="console-output-spinner" alt="" />
   </div>

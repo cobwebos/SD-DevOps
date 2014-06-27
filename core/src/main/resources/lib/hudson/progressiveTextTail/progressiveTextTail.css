@@ -2,3 +2,8 @@
 PRE.console-output.done + .console-output-spinner {
     visibility: hidden;
 }
+
+DIV.console-output-container.tail {
+    border: 1px solid black;
+    padding: 1em;
+}
